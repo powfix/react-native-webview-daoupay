@@ -4,7 +4,6 @@ package kr.vhd.webview.daoupay;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -27,18 +26,13 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
         return "RNWebviewDaoupay";
     }
 
-    @ReactMethod
-    public void test(String text) {
-        Toast.makeText(reactContext.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-    }
-
     private boolean chkAppInstalled(String packagePath){
         boolean appInstalled = false;
         try {
             reactContext.getPackageManager().getPackageInfo(packagePath, PackageManager.GET_ACTIVITIES);
             appInstalled = true;
         } catch(PackageManager.NameNotFoundException e){
-            appInstalled = false;
+            e.printStackTrace();
         }
         return appInstalled;
     }
@@ -63,6 +57,7 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
             return true;
 
         } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -93,7 +88,6 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
         }
 
         Intent intent = null;
-        //�ϵ��ڵ��� ��Ű�������� �� ��ġ���θ� �Ǵ��Ͽ� �ش� �� ���� �Ǵ� ���� �̵�
         if(chkAppInstalled(packageName)){
 
             try {
