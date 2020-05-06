@@ -8,15 +8,20 @@ import com.facebook.react.bridge.Callback;
 
 public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
 
-  private final ReactApplicationContext reactContext;
+    private final ReactApplicationContext reactContext;
 
-  public RNWebviewDaoupayModule(ReactApplicationContext reactContext) {
-    super(reactContext);
-    this.reactContext = reactContext;
-  }
+    public RNWebviewDaoupayModule(ReactApplicationContext reactContext) {
+        super(reactContext);
+        this.reactContext = reactContext;
+    }
 
-  @Override
-  public String getName() {
-    return "RNWebviewDaoupay";
-  }
+    @Override
+    public String getName() {
+        return "RNWebviewDaoupay";
+    }
+
+    @ReactMethod
+    public void test(String text) {
+
+    }
 }
