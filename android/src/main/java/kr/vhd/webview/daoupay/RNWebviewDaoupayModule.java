@@ -1,10 +1,11 @@
 
-package com.reactlibrary;
+package kr.vhd.webview.daoupay;
+
+import android.app.Dialog;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
 
 public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
 
@@ -22,6 +23,7 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void test(String text) {
-
+        Dialog dialog = new Dialog(reactContext);
+        dialog.setTitle("test():text:" + text);
     }
 }
