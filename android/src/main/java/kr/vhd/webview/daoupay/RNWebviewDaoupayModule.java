@@ -128,12 +128,9 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void shouldOverrideUrlLoading(String url, Promise promise) {
-        Toast.makeText(reactContext.getApplicationContext(), url, Toast.LENGTH_SHORT).show();
         if (url.startsWith("intent")){
-            Toast.makeText(reactContext.getApplicationContext(), "intent", Toast.LENGTH_SHORT).show();
             promise.resolve(checkAppInstalled(url, "intent"));
         } else if (url.startsWith("market://")) {
-            Toast.makeText(reactContext.getApplicationContext(), "market://", Toast.LENGTH_SHORT).show();
 
             try {
                 Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
@@ -147,10 +144,8 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
                 promise.reject(e);
             }
         } else if(url.startsWith("http://") || url.startsWith("https://")) {
-            Toast.makeText(reactContext.getApplicationContext(), "HTTP(S)", Toast.LENGTH_SHORT).show();
             promise.resolve(true);
         } else {
-            Toast.makeText(reactContext.getApplicationContext(), "custom link", Toast.LENGTH_SHORT).show();
             promise.resolve(checkAppInstalled(url , "customLink"));
         }
         promise.resolve(true);
