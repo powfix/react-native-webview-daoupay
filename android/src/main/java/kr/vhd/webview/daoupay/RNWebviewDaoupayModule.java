@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -122,26 +123,35 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public boolean shouldOverrideUrlLoading(String url) {
+    public boolean shouldOverrideUrlLoading(String url, Promise promise) {
         Toast.makeText(reactContext.getApplicationContext(), url, Toast.LENGTH_SHORT).show();
         if (url.startsWith("intent")){
-            return checkAppInstalled(url, "intent");
+            boolean result = checkAppInstalled(url, "intent");
+            promise.resolve(result);
+            return result;
         } else if (url.startsWith("market://")) {
             try {
                 Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 if (intent != null) {
                     reactContext.startActivity(intent);
                 }
+                promise.resolve(true);
                 return true;
             } catch (URISyntaxException e) {
                 e.printStackTrace();
+                promise.reject(e);
             }
         } else if(url.startsWith("http://") || url.startsWith("https://")) {
+            promise.resolve(true);
             return true;
         }
         else {
-            return checkAppInstalled(url , "customLink");
+            boolean result = checkAppInstalled(url , "customLink");
+            promise.resolve(result);
+            return result;
         }
+
+        promise.resolve(true);
         return true;
     }
 }
