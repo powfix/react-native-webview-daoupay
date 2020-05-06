@@ -1,6 +1,4 @@
 
 import { NativeModules } from 'react-native';
 
-const { RNWebviewDaoupay } = NativeModules;
-
-export default RNWebviewDaoupay;
+export default NativeModules.RNWebviewDaoupay;
