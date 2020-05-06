@@ -51,12 +51,14 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
                 if(pakagename != null) {
                     Uri uri = Uri.parse("market://details?id="+pakagename);
                     intent = new Intent(Intent.ACTION_VIEW , uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     reactContext.startActivity(intent);
                     return true;
                 }
             }
             Uri uri = Uri.parse(intent.getDataString());
             intent = new Intent(Intent.ACTION_VIEW , uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             reactContext.startActivity(intent);
             return true;
 
@@ -98,6 +100,7 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
                 intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 Uri uri = Uri.parse(intent.getDataString());
                 intent = new Intent(Intent.ACTION_VIEW , uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 reactContext.startActivity(intent);
                 return true;
             } catch (URISyntaxException e) {
@@ -106,6 +109,7 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
         } else {
             Uri uri = Uri.parse("market://details?id="+packageName);
             intent = new Intent(Intent.ACTION_VIEW , uri);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             reactContext.startActivity(intent);
             return true;
         }
@@ -123,35 +127,32 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public boolean shouldOverrideUrlLoading(String url, Promise promise) {
+    public void shouldOverrideUrlLoading(String url, Promise promise) {
         Toast.makeText(reactContext.getApplicationContext(), url, Toast.LENGTH_SHORT).show();
         if (url.startsWith("intent")){
-            boolean result = checkAppInstalled(url, "intent");
-            promise.resolve(result);
-            return result;
+            Toast.makeText(reactContext.getApplicationContext(), "intent", Toast.LENGTH_SHORT).show();
+            promise.resolve(checkAppInstalled(url, "intent"));
         } else if (url.startsWith("market://")) {
+            Toast.makeText(reactContext.getApplicationContext(), "market://", Toast.LENGTH_SHORT).show();
+
             try {
                 Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
                 if (intent != null) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     reactContext.startActivity(intent);
                 }
                 promise.resolve(true);
-                return true;
             } catch (URISyntaxException e) {
                 e.printStackTrace();
                 promise.reject(e);
             }
         } else if(url.startsWith("http://") || url.startsWith("https://")) {
+            Toast.makeText(reactContext.getApplicationContext(), "HTTP(S)", Toast.LENGTH_SHORT).show();
             promise.resolve(true);
-            return true;
+        } else {
+            Toast.makeText(reactContext.getApplicationContext(), "custom link", Toast.LENGTH_SHORT).show();
+            promise.resolve(checkAppInstalled(url , "customLink"));
         }
-        else {
-            boolean result = checkAppInstalled(url , "customLink");
-            promise.resolve(result);
-            return result;
-        }
-
         promise.resolve(true);
-        return true;
     }
 }
