@@ -25,5 +25,6 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
     public void test(String text) {
         Dialog dialog = new Dialog(reactContext);
         dialog.setTitle("test():text:" + text);
+        dialog.show();
     }
 }
