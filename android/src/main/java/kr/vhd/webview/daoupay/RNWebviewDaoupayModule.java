@@ -123,6 +123,7 @@ public class RNWebviewDaoupayModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public boolean shouldOverrideUrlLoading(String url) {
+        Toast.makeText(reactContext.getApplicationContext(), url, Toast.LENGTH_SHORT).show();
         if (url.startsWith("intent")){
             return checkAppInstalled(url, "intent");
         } else if (url.startsWith("market://")) {
